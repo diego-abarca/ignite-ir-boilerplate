@@ -1,12 +1,9 @@
 // @cliDescription  Generates an opinionated container.
 
-const patterns = require('../lib/patterns')
-
 module.exports = async function (context) {
   // grab some features
-  const { parameters, print, strings, ignite, filesystem } = context
+  const { parameters, print, strings, ignite } = context
   const { pascalCase, isBlank } = strings
-  const config = ignite.loadIgniteConfig()
 
   // validation
   if (isBlank(parameters.first)) {
@@ -22,11 +19,11 @@ module.exports = async function (context) {
   const jobs = [
     {
       template: `screen.ejs`,
-      target: `App/Containers/${screenName}.js`
+      target: `App/Containers/${screenName}/${screenName}.js`
     },
     {
       template: `screen-style.ejs`,
-      target: `App/Containers/Styles/${screenName}Style.js`
+      target: `App/Containers/${screenName}/${screenName}Style.js`
     }
   ]
 
@@ -35,29 +32,5 @@ module.exports = async function (context) {
 
   // if using `react-navigation` go the extra step
   // and insert the screen into the nav router
-  if (config.navigation === 'react-navigation') {
-    const appNavFilePath = `${process.cwd()}/App/Navigation/AppNavigation.js`
-    const importToAdd = `import ${screenName} from '../Containers/${screenName}'`
-    const routeToAdd = `  ${screenName}: { screen: ${screenName} },`
-
-    if (!filesystem.exists(appNavFilePath)) {
-      const msg = `No '${appNavFilePath}' file found.  Can't insert screen.`
-      print.error(msg)
-      process.exit(1)
-    }
-
-    // insert screen import
-    ignite.patchInFile(appNavFilePath, {
-      after: patterns[patterns.constants.PATTERN_IMPORTS],
-      insert: importToAdd
-    })
-
-    // insert screen route
-    ignite.patchInFile(appNavFilePath, {
-      after: patterns[patterns.constants.PATTERN_ROUTES],
-      insert: routeToAdd
-    })
-  } else {
-    print.info(`Screen ${screenName} created, manually add it to your navigation`)
-  }
+  print.info(`Screen ${screenName} created, manually add it to your navigation`)
 }

@@ -102,11 +102,11 @@ module.exports = async function (context) {
   const jobs = [
     {
       template: `${componentTemplate}.ejs`,
-      target: `App/Containers/${name}.js`
+      target: `App/Containers/${name}/${name}Container.js`
     },
     {
       template: `${styleTemplate}.ejs`,
-      target: `App/Containers/Styles/${name}Style.js`
+      target: `App/Containers/${name}/${name}Style.js`
     }
   ]
 
@@ -114,30 +114,5 @@ module.exports = async function (context) {
 
   // if using `react-navigation` go the extra step
   // and insert the screen into the nav router
-  if (config.navigation === 'react-navigation') {
-    const screenName = `${name}`
-    const appNavFilePath = `${process.cwd()}/App/Navigation/AppNavigation.js`
-    const importToAdd = `import ${screenName} from '../Containers/${screenName}'`
-    const routeToAdd = `  ${screenName}: { screen: ${screenName} },`
-
-    if (!filesystem.exists(appNavFilePath)) {
-      const msg = `No '${appNavFilePath}' file found.  Can't insert list screen.`
-      print.error(msg)
-      process.exit(1)
-    }
-
-    // insert list screen import
-    ignite.patchInFile(appNavFilePath, {
-      after: patterns[patterns.constants.PATTERN_IMPORTS],
-      insert: importToAdd
-    })
-
-    // insert list screen route
-    ignite.patchInFile(appNavFilePath, {
-      after: patterns[patterns.constants.PATTERN_ROUTES],
-      insert: routeToAdd
-    })
-  } else {
-    print.info('List screen created, manually add it to your navigation')
-  }
+  print.info('List screen created, manually add it to your navigation')
 }

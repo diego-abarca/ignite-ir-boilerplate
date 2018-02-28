@@ -51,7 +51,7 @@ Your `App` folder is where most of the goodies are found in an Ignite Next app. 
 Containers are (mostly) full screens, although they can be sections of screens or application containers.
 
 * `App.js` - your main application. We create a Redux store and configure it here
-* `RootContainer.js` - main view of your application. Contains your status bar and navigation component
+* `RootScreen.js` - main view of your application. Contains your status bar and navigation component
 * `LaunchScreen.js` - this is the first screen shown in your application. It's loaded into the Navigation component
 * `LoginScreen.js` - an example login screen. Read the comments in there to learn more!
 * `Styles` - styling for each of the above containers and screens

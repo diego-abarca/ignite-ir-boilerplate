@@ -33,7 +33,7 @@ describe('generators', () => {
   test('generates a component', async () => {
     const simpleComponent = 'Simple'
     await execa(IGNITE, ['g', 'component', simpleComponent], { preferLocal: false })
-    expect(jetpack.exists(`App/Components/${simpleComponent}.js`)).toBe('file')
+    expect(jetpack.exists(`App/Components/${simpleComponent}/${simpleComponent}Component.js`)).toBe('file')
     expect(jetpack.exists(`App/Components/Styles/${simpleComponent}Style.js`)).toBe('file')
     const lint = await execa('npm', ['-s', 'run', 'lint'])
     expect(lint.stderr).toBe('')
@@ -42,8 +42,8 @@ describe('generators', () => {
   test('generates a folder component', async () => {
     const folderComponent = 'Folder'
     await execa(IGNITE, ['g', 'component', '--folder', folderComponent], { preferLocal: false })
-    expect(jetpack.exists(`App/Components/${folderComponent}/index.js`)).toBe('file')
-    expect(jetpack.exists(`App/Components/${folderComponent}/Styles/indexStyle.js`)).toBe('file')
+    expect(jetpack.exists(`App/Components/${folderComponent}/${folderComponent}indexComponent.js`)).toBe('file')
+    expect(jetpack.exists(`App/Components/${folderComponent}/indexStyle.js`)).toBe('file')
     const lint = await execa('npm', ['-s', 'run', 'lint'])
     expect(lint.stderr).toBe('')
   })

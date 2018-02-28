@@ -28,13 +28,13 @@ module.exports = async function (context) {
   const props = { name }
   const jobs = [{
     template: 'component.ejs',
-    target: `App/Components/${relativePath}${name}.js`
+    target: `App/Components/${relativePath}${name}/${name}Component.js`
   }, {
     template: 'component-style.ejs',
-    target: `App/Components/${relativePath}Styles/${name}Style.js`
+    target: `App/Components/${relativePath}${name}/${name}Style.js`
   }, tests === 'ava' && {
     template: 'component-test.ejs',
-    target: `Test/Components/${relativePath}${name}Test.js`
+    target: `Test/Components/${relativePath}/${name}/${name}Test.js`
   }]
 
   await ignite.copyBatch(context, jobs, props)

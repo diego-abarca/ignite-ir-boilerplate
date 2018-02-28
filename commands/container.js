@@ -1,12 +1,9 @@
 // @cliDescription  Generates a redux smart component.
 
-const patterns = require('../lib/patterns')
-
 module.exports = async function (context) {
   // grab some features
-  const { parameters, strings, print, ignite, filesystem } = context
+  const { parameters, strings, print, ignite } = context
   const { pascalCase, isBlank } = strings
-  const config = ignite.loadIgniteConfig()
 
   // validation
   if (isBlank(parameters.first)) {
@@ -16,16 +13,17 @@ module.exports = async function (context) {
   }
 
   const name = pascalCase(parameters.first)
-  const props = { name }
+  const screenName = name.endsWith('Container') ? name : `${name}Container`
+  const props = { name: screenName }
 
   const jobs = [
     {
       template: 'container.ejs',
-      target: `App/Containers/${name}.js`
+      target: `App/Containers/${screenName}/${screenName}.js`
     },
     {
       template: 'container-style.ejs',
-      target: `App/Containers/Styles/${name}Style.js`
+      target: `App/Containers/${screenName}/${screenName}Style.js`
     }
   ]
 
@@ -33,30 +31,5 @@ module.exports = async function (context) {
 
   // if using `react-navigation` go the extra step
   // and insert the container into the nav router
-  if (config.navigation === 'react-navigation') {
-    const containerName = name
-    const appNavFilePath = `${process.cwd()}/App/Navigation/AppNavigation.js`
-    const importToAdd = `import ${containerName} from '../Containers/${containerName}'`
-    const routeToAdd = `  ${containerName}: { screen: ${containerName} },`
-
-    if (!filesystem.exists(appNavFilePath)) {
-      const msg = `No '${appNavFilePath}' file found.  Can't insert container.`
-      print.error(msg)
-      process.exit(1)
-    }
-
-    // insert container import
-    ignite.patchInFile(appNavFilePath, {
-      after: patterns[patterns.constants.PATTERN_IMPORTS],
-      insert: importToAdd
-    })
-
-    // insert container route
-    ignite.patchInFile(appNavFilePath, {
-      after: patterns[patterns.constants.PATTERN_ROUTES],
-      insert: routeToAdd
-    })
-  } else {
-    print.info('Container created, manually add it to your navigation')
-  }
+  print.info('Container created, manually add it to your navigation')
 }

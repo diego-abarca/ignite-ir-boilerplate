@@ -8,8 +8,8 @@
 
 import FixtureAPI from '../../App/Services/FixtureApi'
 import { call, put } from 'redux-saga/effects'
-import { get<%= props.name %> } from '../../App/Sagas/<%= props.name %>Sagas'
-import <%= props.name %>Actions from '../../App/Redux/<%= props.name %>Redux'
+import { get<%= props.name %> } from '../../App/Reducers/<%= props.name %>/<%= props.name %>Sagas'
+import <%= props.name %>Actions from '../../App/Reducers/<%= props.name %>/<%= props.name %>Redux'
 
 const stepper = (fn) => (mock) => fn.next(mock).value
 

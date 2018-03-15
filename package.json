@@ -1,6 +1,6 @@
 {
-  "name": "ignite-ir-boilerplate",
-  "description": "Infinite Red's hot boilerplate for React Native.",
+  "name": "ignite-ir-boilerplate-ondecode",
+  "description": "Infinite Red's hot boilerplate for React Native modified for ondecode.",
   "license": "MIT",
   "repository": "infinitered/ignite-ir-boilerplate",
   "homepage": "https://github.com/infinitered/ignite-ir-boilerplate",
